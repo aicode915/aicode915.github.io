@@ -1,32 +1,95 @@
 # AICODE
 
-> 新一代 AI 产品工作平台
+> 新一代 AI 产品工作平台 / AI Product Studio
 
-AICODE 是一个面向 AI 产品与开发者的现代化产品官网原型。项目保持 **纯 HTML + CSS + 原生 JavaScript**，无前端框架、无 npm 依赖、无构建步骤，可直接部署到 GitHub Pages。
+AICODE 是一个面向 AI 产品与开发者的现代化产品工作平台原型。当前版本已经从单纯的 Landing Page 升级为 **官网 + AI Workspace + Product Studio** 三合一体验，并保持 **纯 HTML + CSS + 原生 JavaScript**：无 React / Vue、无 npm 依赖、无构建步骤，可直接部署到 GitHub Pages。
 
-## ✨ 本次升级
+## ✨ 当前版本
 
-- **AI Agent 交互工作台**：点击“运行”即可看到需求分析 → 构建 → 测试 → 部署的动态状态演示
-- **更完整的产品官网结构**：Hero、AI 能力、数据指标、工作流、方案、FAQ、CTA
-- **主题切换**：支持深色 / 浅色模式，并通过 LocalStorage 记住选择
-- **中英文切换**：页面主要文案支持中文 / English，并记住用户选择
-- **滚动入场动画**：使用原生 IntersectionObserver，无第三方动画库
-- **响应式设计**：桌面、平板、手机均有适配
-- **零依赖**：不需要 Node.js、npm、构建工具或第三方 UI 库
-- **GitHub Pages 友好**：静态文件即可发布- **AI 工作台原型**：三栏项目 / Agent / 代码 / 任务界面，支持聊天、模型切换、代码 Tab 和新建项目
-- **官网 + 工作台双模式**：保留 Landing Page，同时可进入产品工作区
+### 1. 产品官网 Landing Page
 
-> 注意：AI Agent 工作台目前是前端交互原型，不会调用真实 AI API。要变成真正的 AI 产品，需要继续接入后端、模型 API、认证和任务执行服务。
+- **完整产品官网**：Hero、AI 能力、数据指标、工作流、方案、FAQ、CTA
+- **主题切换**：深色 / 浅色，并使用 LocalStorage 记住选择
+- **中英文切换**：中文 / English，并使用 LocalStorage 记住选择
+- **滚动动画**：原生 IntersectionObserver
+- **响应式布局**：桌面、平板、手机适配
+- **Agent Demo**：需求分析 → 构建 → 测试 → 部署
+
+### 2. AI Workspace
+
+进入官网的“工作台 / Workspace”后，可以体验一个产品化的 AI coding workspace：
+- 项目列表与项目切换
+- AI Agent 对话区
+- AICODE Fast / Reasoning / Code 模型选择器
+- HTML / CSS / JS 代码 Tab
+- Agent 状态与任务面板
+- 新建项目、返回官网
+- 前端模拟 Agent 响应，不调用真实模型 API
+
+### 3. Product Studio
+
+Product Studio 是当前项目的核心产品原型，提供从项目管理到代码预览的一体化体验：
+- **Dashboard**：项目数量、Agent Run、文件数量等概览
+- **Project Detail**：项目名称、路径、文件树、代码编辑器
+- **Preview**：通过 iframe + srcdoc 实时预览项目页面
+- **Agent Logs**：Plan → Build → Test → Ship 执行时间线
+- **Local-first persistence**：项目、文件和编辑结果保存在浏览器 LocalStorage
+- **New Project / Reset Demo**：支持本地创建项目和恢复演示数据
+- 示例项目包含 index.html、style.css、app.js、README.md
+
+## 🧱 技术架构
+
+当前版本刻意采用最简单的静态架构：
+
+```text
+GitHub Pages
+│
+├── Landing Page
+├── AI Workspace
+├── Product Studio
+│   ├── Dashboard
+│   ├── Project Detail
+│   └── Agent Logs
+│
+└── Browser LocalStorage
+    ├── Theme
+    ├── Language
+    └── Studio Projects / Files
+```
+
+### 为什么现在不需要数据库？
+
+因为当前目标是先把完整的产品体验跑通。GitHub Pages 负责静态资源托管，浏览器 LocalStorage 负责 Demo 数据持久化，因此：
+- 不需要服务器
+- 不需要数据库
+- 不需要 Node.js / npm
+- 不需要 API Key
+- 不需要 CI 构建服务
+
+但这是一套 **local-first 产品原型架构**，不是完整的多用户 SaaS 后端。
+
+## ⚠️ 当前边界
+
+以下能力目前仍是前端模拟或本地能力：
+- AI Agent：模拟执行，不调用真实 LLM
+- 登录 / 注册：尚未接入
+- 跨设备同步：不支持
+- 多用户协作：不支持
+- 服务端项目存储：不支持
+- 安全保存 AI API Key：不支持
+- 真正的代码执行、测试与部署：尚未接入服务器
+
+如果要升级为真正的 AI SaaS，需要在现有前端之上增加后端 API、认证、数据库、模型网关和 Agent Runtime。
 
 ## 📁 项目结构
 
 ```text
 .
-├── index.html    # 官网全部页面、CSS 与原生 JavaScript
-└── README.md     # 项目说明
+├── index.html    # 官网、Workspace、Product Studio、CSS 与原生 JavaScript
+└── README.md     # 项目说明与架构文档
 ```
 
-当前仍然刻意保持单文件结构，方便 GitHub Pages 快速部署和原型迭代。
+当前继续保持单文件结构，目的是降低部署和迭代成本。后续进入正式产品开发阶段，再考虑拆分组件与模块。
 
 ## 🚀 本地运行
 
@@ -42,67 +105,66 @@ python3 -m http.server 8000
 http://localhost:8000
 ```
 
-也可以直接用浏览器打开 `index.html`。
+也可以直接用浏览器打开 index.html。
 
 ## 🌐 在线访问
 
 GitHub Pages：
-
 https://aicode915.github.io/
 
 项目仓库：
-
 https://github.com/aicode915/aicode915.github.io
 
-## 🛠️ 主要功能
+## 🛠️ 主要交互说明
 
-### 1. AI Agent Demo
+### Agent Demo
 
-Hero 区域内置一个可运行的 Agent 工作台：
+首页 Agent Demo 通过原生 JavaScript 定时器模拟任务状态变化，展示：
+1. 分析需求与技术方案
+2. 生成产品界面
+3. 运行测试
+4. 准备部署
 
-1. 分析产品需求与技术方案
-2. 生成页面与交互逻辑
-3. 运行自动化测试
-4. 准备部署到生产环境
+### Workspace
 
-这是纯前端状态机演示，适合后续替换为真实 API / WebSocket / SSE 数据流。
+Workspace 将项目、Agent、代码和任务状态集中到同一个界面，适合后续接入真实聊天 API、SSE 或 WebSocket。
 
-### 2. 主题切换
+### Product Studio
 
-右上角按钮可以切换深色 / 浅色主题。选择会保存到浏览器 LocalStorage。
+Product Studio 的核心数据模型类似：
 
-### 3. 中英文切换
+```text
+Project
+├── name
+└── files
+    ├── index.html
+    ├── style.css
+    ├── app.js
+    └── README.md
+```
 
-右上角语言按钮可以在中文和 English 之间切换，主要页面文案会同步更新。
+项目数据默认保存在：
 
-### 4. FAQ
+```text
+aicode-studio-projects
+```
 
-FAQ 使用原生 JavaScript 实现折叠展开，没有依赖任何组件库。
+这是浏览器 LocalStorage 的 key。刷新页面后，当前浏览器中的项目数据仍可恢复。
 
-### 5. 响应式与动画### 6. AI 工作台
+## 🔮 下一阶段建议
 
-页面新增一个产品工作台原型，包含项目列表、AI Agent 聊天、模型选择器、HTML/CSS/JS 代码编辑区和任务状态面板。所有行为均由原生 JavaScript 模拟，不调用真实 AI 服务。
+如果准备继续把 AICODE 发展成真正的 AI SaaS，推荐按这个顺序演进：
+1. **前端组件化**：将单文件原型拆成 React / Vue / Svelte 等组件
+2. **真实 AI API**：聊天、代码生成、Agent Planning 接入模型服务
+3. **Agent Runtime**：增加任务队列、工具调用、代码执行与测试沙箱
+4. **后端 API**：用户、项目、文件、任务、Agent Run 等服务
+5. **身份认证**：登录、OAuth、团队与权限体系
+6. **数据库**：项目、会话、知识库、计费与审计数据
+7. **实时通信**：使用 SSE / WebSocket 推送 Agent 执行日志
+8. **部署链路**：GitHub / CI/CD / 云平台自动部署
+9. **可观测性**：日志、错误追踪、Token、成本与任务成功率
 
-工作台可通过官网导航或 Hero 按钮进入，并提供返回官网入口。
-
-### 7. 后续接入真实 AI
-
-工作台当前的数据流是本地前端状态。接入真实产品时，可以将聊天发送、Agent 任务、代码生成和任务状态替换成 API、SSE 或 WebSocket。
-
-页面使用 CSS Grid / Flexbox、媒体查询和 IntersectionObserver，适配移动端并提供轻量滚动入场效果。
-
-## 🧩 第三阶段：Product Studio\n\n- Dashboard / Project Detail / Agent Logs 三种视图\n- 本地项目与文件内容使用浏览器 LocalStorage 持久化\n- 文件树、代码编辑器与 iframe Preview 联动\n- Agent 执行日志为前端模拟，可后续替换为真实 SSE / WebSocket\n- 仍然无需数据库、后端、npm 或第三方依赖\n\n> GitHub Pages 可以承载这一整套前端产品体验；真正的账号、跨设备数据、AI API 密钥和服务器端 Agent 执行，需要后端或第三方服务。\n\n## 🔮 下一阶段建议
-
-如果准备把这个官网继续发展成真正的 AI SaaS，建议按以下顺序演进：
-
-1. **前端组件化**：React / Vue / Svelte 三选一
-2. **后端 API**：用户、项目、任务、模型调用等服务
-3. **身份认证**：登录、注册、OAuth、团队权限
-4. **模型网关**：统一管理不同 LLM Provider
-5. **实时任务系统**：SSE / WebSocket 展示 Agent 执行过程
-6. **数据库**：项目、知识库、会话、计费数据
-7. **真实部署链路**：GitHub / CI/CD / 云平台
-8. **可观测性**：日志、错误追踪、Token / 成本统计
+届时可以继续保留 GitHub Pages 作为前端入口，把后端能力独立部署，不需要推翻当前 UI 和产品结构。
 
 ## 📦 部署到 GitHub Pages
 
@@ -110,11 +172,11 @@ FAQ 使用原生 JavaScript 实现折叠展开，没有依赖任何组件库。
 
 ```bash
 git add .
-git commit -m "feat: upgrade AICODE landing page"
+git commit -m "feat: upgrade AICODE"
 git push origin main
 ```
 
-如果仓库已经启用 GitHub Pages，推送到 `main` 后 GitHub 会自动更新网站。
+如果仓库已经启用 GitHub Pages，推送到 main 后 GitHub 会自动更新网站。
 
 ## 📄 License
 
